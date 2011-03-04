@@ -15,15 +15,25 @@
 
 - (id)initWithFrame:(CGRect)frame {
 	if ((self = [super initWithFrame:frame])) {
-		self.backgroundColor = [UIColor whiteColor];
 		self.opaque = YES;
+		self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	}
 	return self;
 }
 
 
 - (void)drawRect:(CGRect)rect {
-	[(SSTableViewCell *)[self superview] drawContentView:rect];
+	SSTableViewCell *cell = (SSTableViewCell *)[[self superview] superview];
+	if (cell.highlighted == NO) {
+		[super drawRect:rect];
+	}
+	[cell drawContentView:rect];
+}
+
+
+- (void)setFrame:(CGRect)frame {
+	[super setFrame:frame];
+	[self setNeedsDisplay];
 }
 
 @end
@@ -31,22 +41,9 @@
 
 @implementation SSTableViewCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
-		self.contentView.hidden = YES;
-		self.backgroundView.hidden = YES;
-		self.textLabel.hidden = YES;
-		self.detailTextLabel.hidden = YES;
-		self.imageView.hidden = YES;
-		
-		_cellView = [[SSTableViewCellView alloc] initWithFrame:CGRectZero];
-		[self addSubview:_cellView];
-		[self bringSubviewToFront:_cellView];
-		[_cellView release];
-    }
-    return self;
-}
+@synthesize cellView = _cellView;
 
+#pragma mark UIView
 
 - (void)setNeedsDisplay {
 	[super setNeedsDisplay];
@@ -57,12 +54,30 @@
 - (void)setFrame:(CGRect)frame {
 	[super setFrame:frame];
 	
-	CGRect bounds = [self bounds];
-	bounds.size.height -= 1;
-	_cellView.frame = bounds;
+	CGSize size = self.contentView.frame.size;
+	_cellView.frame = CGRectMake(0.0f, 0.0f, size.width, size.height);
 	[self setNeedsDisplay];
 }
 
+
+#pragma mark UITableViewCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
+		self.backgroundView.hidden = YES;
+		self.textLabel.hidden = YES;
+		self.detailTextLabel.hidden = YES;
+		self.imageView.hidden = YES;
+		
+		_cellView = [[SSTableViewCellView alloc] initWithFrame:CGRectZero];
+		[self.contentView addSubview:_cellView];
+		[_cellView release];
+    }
+    return self;
+}
+
+
+#pragma mark Custom Drawing
 
 - (void)drawContentView:(CGRect)rect {
 	// Subclasses should implement this

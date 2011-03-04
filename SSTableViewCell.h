@@ -15,6 +15,8 @@
 	UIView *_cellView;
 }
 
+@property (nonatomic, retain, readonly) UIView *cellView;
+
 - (void)drawContentView:(CGRect)rect;
 
 @end
