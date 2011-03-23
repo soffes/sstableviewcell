@@ -55,7 +55,7 @@
 	[super setFrame:frame];
 	
 	CGSize size = self.contentView.frame.size;
-	_cellView.frame = CGRectMake(0.0f, 0.0f, size.width, size.height);
+	_cellView.frame = CGRectMake(0.0f, 1.0f, size.width, size.height - 2.0f);
 	[self setNeedsDisplay];
 }
 
