@@ -18,5 +18,6 @@
 @property (nonatomic, retain, readonly) UIView *cellView;
 
 - (void)drawContentView:(CGRect)rect;
+- (CGRect)cellViewFrame;
 
 @end

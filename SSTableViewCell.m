@@ -53,9 +53,7 @@
 
 - (void)setFrame:(CGRect)frame {
 	[super setFrame:frame];
-	
-	CGSize size = self.contentView.frame.size;
-	_cellView.frame = CGRectMake(0.0f, 1.0f, size.width, size.height - 2.0f);
+	_cellView.frame = [self cellViewFrame];
 	[self setNeedsDisplay];
 }
 
@@ -81,6 +79,12 @@
 
 - (void)drawContentView:(CGRect)rect {
 	// Subclasses should implement this
+}
+
+
+- (CGRect)cellViewFrame {
+	CGSize size = self.contentView.frame.size;
+	return CGRectMake(0.0f, 1.0f, size.width, size.height - 2.0f);
 }
 
 @end
