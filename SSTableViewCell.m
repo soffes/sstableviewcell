@@ -23,7 +23,7 @@
 
 
 - (void)drawRect:(CGRect)rect {
-	SSTableViewCell *cell = (SSTableViewCell *)[[self superview] superview];
+	SSTableViewCell *cell = (SSTableViewCell *)[self superview];
 	if (cell.highlighted == NO) {
 		[super drawRect:rect];
 	}
@@ -66,9 +66,10 @@
 		self.textLabel.hidden = YES;
 		self.detailTextLabel.hidden = YES;
 		self.imageView.hidden = YES;
+		self.contentView.hidden = YES;
 		
 		_cellView = [[SSTableViewCellView alloc] initWithFrame:CGRectZero];
-		[self.contentView addSubview:_cellView];
+		[self addSubview:_cellView];
 		[_cellView release];
     }
     return self;
@@ -83,8 +84,7 @@
 
 
 - (CGRect)cellViewFrame {
-	CGSize size = self.contentView.frame.size;
-	return CGRectMake(0.0f, 1.0f, size.width, size.height - 2.0f);
+	return self.contentView.frame;
 }
 
 @end
