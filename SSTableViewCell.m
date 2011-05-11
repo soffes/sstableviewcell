@@ -17,6 +17,7 @@
 	if ((self = [super initWithFrame:frame])) {
 		self.opaque = YES;
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		self.contentMode = UIViewContentModeRedraw;
 	}
 	return self;
 }
@@ -28,12 +29,6 @@
 		[super drawRect:rect];
 	}
 	[cell drawContentView:rect];
-}
-
-
-- (void)setFrame:(CGRect)frame {
-	[super setFrame:frame];
-	[self setNeedsDisplay];
 }
 
 @end
